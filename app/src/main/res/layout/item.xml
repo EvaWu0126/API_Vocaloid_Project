@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_vocaloidItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageView_vocaloidItem_thumbNail"
+        android:layout_width="107dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textView_vocaloidItem_defaultName"
+        android:layout_width="99dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/imageView_vocaloidItem_thumbNail"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="ラグトレイン" />
+
+    <TextView
+        android:id="@+id/textView_vocaloidItem_name"
+        android:layout_width="136dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toEndOf="@+id/textView_vocaloidItem_defaultName"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Lagtrain" />
+
+    <TextView
+        android:id="@+id/textView_vocaloidItem_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toEndOf="@+id/imageView_vocaloidItem_thumbNail"
+        app:layout_constraintTop_toBottomOf="@+id/textView_vocaloidItem_defaultName"
+        tools:text="inabakumori feat. Kaai Yuki" />
+
+    <TextView
+        android:id="@+id/textView_vocaloidItem_publishDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/imageView_vocaloidItem_thumbNail"
+        app:layout_constraintTop_toBottomOf="@+id/textView_vocaloidItem_artist"
+        tools:text="2020-07-16" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
