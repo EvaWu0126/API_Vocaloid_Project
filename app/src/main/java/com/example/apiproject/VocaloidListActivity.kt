@@ -1,9 +1,15 @@
-
+package com.example.apiproject
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.apiproject.Item
 import com.example.apiproject.ItemWrapper
 import com.example.apiproject.RetrofitHelper
@@ -20,10 +26,16 @@ class VocaloidListActivity : AppCompatActivity() {
 
     private lateinit var adapter: VocaloidAdapter
     private lateinit var binding: ActivityVocaloidListBinding
+    companion object {
+        var sorting = "default"
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVocaloidListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         val retrofit = RetrofitHelper.getInstance()
         val vocaloidService = retrofit.create(VocaloidService::class.java)
@@ -42,7 +54,7 @@ class VocaloidListActivity : AppCompatActivity() {
             false,
             "RatingScore",
             false,
-            "MainPicture,Lyrics",
+            "MainPicture, Lyrics",
             "English"
         )
 
@@ -65,5 +77,40 @@ class VocaloidListActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu,menu)
+        return true
+        //super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection.
+        return when (item.itemId) {
+            R.id.menuItem_main_sortRating -> {
+                adapter.vocaloidList = adapter.vocaloidList.sortedByDescending {
+                    it.ratingScore
+                }
+                adapter.notifyDataSetChanged()
+                sorting = "Rating"
+                true
+            }
+            R.id.menuItem_main_sortDate-> {
+                adapter.vocaloidList = adapter.vocaloidList.sortedByDescending {
+                    it.publishDate
+                }
+                adapter.notifyDataSetChanged()
+                sorting = "Date"
+                true
+            }
+//            R.id.menuItem_main_legand-> {
+//                AlertDialog.Builder(this).setMessage("Purple: Significant (>6.5)\nRed: Large (4.5-6.5)\nOrange: " +
+//                        "Moderate (2.5-4.5)\nBlue: Small (1.0-2.5)\n\nThe number represents " +
+//                        "the magnitude of the earthquake.").show()
+//                true
+//            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

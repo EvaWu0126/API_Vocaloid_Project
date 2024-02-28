@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.example.apiproject.VocaloidListActivity.Companion.sorting
+import com.squareup.picasso.Picasso
 
 class VocaloidAdapter (var vocaloidList: List<Item>) : RecyclerView.Adapter<VocaloidAdapter.ViewHolder>()  {
 
@@ -43,12 +45,27 @@ class VocaloidAdapter (var vocaloidList: List<Item>) : RecyclerView.Adapter<Voca
         return ViewHolder(view)
     }
 
-    // pass down data from json
+
+    // this is where you access data and put them on your view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = vocaloidList[position]
         holder.textViewName.text = data.defaultName
         holder.textViewArtist.text = data.artistString
-        holder.textViewRating.text = data.ratingScore.toString()
+        if(sorting == "Rating"){
+            holder.textViewDate.setVisibility(View.INVISIBLE)
+            holder.textViewRating.setVisibility(View.VISIBLE)
+            holder.textViewRating.text = "Rating: " + data.ratingScore.toString()
+        }else if(sorting == "Date"){
+            holder.textViewRating.setVisibility(View.INVISIBLE)
+            holder.textViewDate.setVisibility(View.VISIBLE)
+            holder.textViewDate.text = "Published: " + data.publishDate
+        }else{
+            holder.textViewDate.setVisibility(View.INVISIBLE)
+            holder.textViewRating.setVisibility(View.INVISIBLE)
+        }
+
+        // Picasso: access imagines using url
+        Picasso.get().load(data.mainPicture.urlOriginal).into(holder.imageViewThumbnail);
         Log.d(TAG, "vocaloidlist running")
 
     }
