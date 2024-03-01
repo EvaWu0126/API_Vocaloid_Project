@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_main_vocaDetail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <VideoView
+        android:id="@+id/videoView_main_video"
+        android:layout_width="319dp"
+        android:layout_height="199dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_main_origTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="24dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_main_vocoDetail"
+        tools:text="ラグトレイン" />
+
+    <Button
+        android:id="@+id/button_main_vocoDetail"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="154dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="24dp"
+        android:background="@android:color/white"
+        android:text="Basic Information"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/videoView_main_video" />
+
+    <Button
+        android:id="@+id/button_main_vocoLyrics"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="154dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="44dp"
+        android:background="@android:color/white"
+        android:text="Lyrics"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/videoView_main_video" />
+
+    <TextView
+        android:id="@+id/textView_main_transTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_origTitle"
+        tools:text="Lagtrain"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView_main_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_transTitle"
+        tools:text="Artist:  inabakumori feat. Kaai Yuki"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView_main_songDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_artist"
+        tools:text="Song Length:  4:18"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView_main_platform"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_songDuration"
+        tools:text="PV Services:  NicoNicoDouga, Youtube, Bilibili"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView_main_publishDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_platform"
+        tools:text="Published Date:  2020-07-16"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView_main_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_publishDate"
+        tools:text="Rating: 600"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView_main_songLyrics"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="44dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_main_english"
+        tools:text="離れ離れの街を繋ぐ列車は行ってしまったね\n失くした言葉を知らないなら　ポケットで握りしめて\nあがいた息を捨てて延びる今日は眠って誤魔化せ\n失くした言葉を知らないなら　各駅停車に乗り込んで\n\n夕方と退屈のお誘いを断って"
+        tools:visibility="invisible" />
+
+    <CheckBox
+        android:id="@+id/checkBox_main_english"
+        style="@android:style/Widget.CompoundButton.CheckBox"
+        android:layout_width="102dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="24dp"
+        android:text="English Lyrics"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_transTitle"
+        tools:visibility="invisible" />
+
+    <CheckBox
+        android:id="@+id/checkBox_main_romaji"
+        style="@android:style/Widget.CompoundButton.CheckBox"
+        android:layout_width="102dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="Romanized Lyrics"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_main_english"
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_transTitle"
+        tools:visibility="invisible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

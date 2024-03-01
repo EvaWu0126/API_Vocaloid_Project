@@ -1,5 +1,6 @@
 package com.example.apiproject
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.apiproject.VocaloidListActivity.Companion.sorting
 import com.squareup.picasso.Picasso
 
+
 class VocaloidAdapter (var vocaloidList: List<Item>) : RecyclerView.Adapter<VocaloidAdapter.ViewHolder>()  {
 
     val TAG = "VocaloidAdapter"
+    val TAG2 = "VocaloidAdapter-switching"
 
     //binding
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -48,6 +51,8 @@ class VocaloidAdapter (var vocaloidList: List<Item>) : RecyclerView.Adapter<Voca
 
     // this is where you access data and put them on your view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        //context: call on a random view to determine the activity its in
+        val context = holder.layout.context
         val data = vocaloidList[position]
         holder.textViewName.text = data.defaultName
         holder.textViewArtist.text = data.artistString
@@ -68,6 +73,13 @@ class VocaloidAdapter (var vocaloidList: List<Item>) : RecyclerView.Adapter<Voca
         Picasso.get().load(data.mainPicture.urlOriginal).into(holder.imageViewThumbnail);
         Log.d(TAG, "vocaloidlist running")
 
+        holder.layout.setOnClickListener{
+            val vocaloidDetails = Intent(context, VocaloidDetail::class.java)
+            vocaloidDetails.putExtra(VocaloidDetail.EXTRA_DETAIL, data)
+            context.startActivity(vocaloidDetails)
+            Log.d(TAG2, "vocaloidDetail called")
+
+        }
     }
 
     override fun getItemCount(): Int {
