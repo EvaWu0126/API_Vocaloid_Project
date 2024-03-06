@@ -78,7 +78,6 @@ class VocaloidAdapter (var vocaloidList: List<Item>) : RecyclerView.Adapter<Voca
             vocaloidDetails.putExtra(VocaloidDetail.EXTRA_DETAIL, data)
             context.startActivity(vocaloidDetails)
             Log.d(TAG2, "vocaloidDetail called")
-
         }
     }
 

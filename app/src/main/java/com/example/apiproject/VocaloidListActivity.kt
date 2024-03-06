@@ -104,12 +104,7 @@ class VocaloidListActivity : AppCompatActivity() {
                 sorting = "Date"
                 true
             }
-//            R.id.menuItem_main_legand-> {
-//                AlertDialog.Builder(this).setMessage("Purple: Significant (>6.5)\nRed: Large (4.5-6.5)\nOrange: " +
-//                        "Moderate (2.5-4.5)\nBlue: Small (1.0-2.5)\n\nThe number represents " +
-//                        "the magnitude of the earthquake.").show()
-//                true
-//            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

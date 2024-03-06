@@ -1,7 +1,10 @@
 package com.example.apiproject
 
+import android.content.res.Configuration
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageView
@@ -9,8 +12,10 @@ import android.widget.TextView
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apiproject.databinding.ActivityVocaloidDetailBinding
+import android.net.Uri
 
 class VocaloidDetail : AppCompatActivity() {
 
@@ -61,17 +66,54 @@ class VocaloidDetail : AppCompatActivity() {
 
         layout = findViewById(R.id.layout_main_vocaDetail)
 
-//        textViewOrigTitle.text = vocaloid?.defaultName?: null
-//
-//        textViewLyrics.setVisibility(View.VISIBLE)
-//        if(language == "default"){
-//            textViewLyrics.text = vocaloid?.lyrics?.value?.
-//        }
+        textViewOrigTitle.text = vocaloid?.defaultName
+        textViewTransTitle.text = vocaloid?.name
+        textViewArtist.text = vocaloid?.artistString
+        textViewSongLength.text = toTime(vocaloid?.lengthSeconds)
+        textViewPV.text = vocaloid?.pvServices
+        textViewDate.text = vocaloid?.publishDate
+        textViewRate.text = vocaloid?.ratingScore.toString()
 
+        textViewLyrics.text = vocaloid?.lyrics?.get(0)?.value
 
+        val uri: Uri = Uri.parse(vocaloid?.lyrics?.get(0)?.url)
+        videoViewSong.setVideoURI(uri)
 
 
     }
+
+    // converting from second to time :p in a stupid way but it works
+    fun toTime(second : Int?): String{
+        var a : String = (second?.div(60)).toString().substring(0,1)
+        var b : String = (second?.div(60)).toString().substring(2,4)
+        return "$a:$b"
+    }
+
+
+    // I do not know what is this, copy pasted from earthquake
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        val permissionsToRequest = ArrayList<String>()
+        var i = 0
+        while (i < grantResults.size) {
+            permissionsToRequest.add(permissions[i])
+            i++
+        }
+        if (permissionsToRequest.size > 0) {
+            ActivityCompat.requestPermissions(
+                this,
+                permissionsToRequest.toTypedArray(),
+                REQUEST_PERMISSIONS_REQUEST_CODE
+            )
+        }
+
+    }
+
+
 
 
 
