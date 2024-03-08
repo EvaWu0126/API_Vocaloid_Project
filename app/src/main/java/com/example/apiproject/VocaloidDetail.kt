@@ -16,12 +16,13 @@ import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apiproject.databinding.ActivityVocaloidDetailBinding
 import android.net.Uri
+import android.util.Log
+import android.text.method.ScrollingMovementMethod
 
 class VocaloidDetail : AppCompatActivity() {
 
     private lateinit var binding: ActivityVocaloidDetailBinding
-    private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
-    private val language = "default"
+    val TAG = "VocaloidDetailView"
     companion object {
         val EXTRA_DETAIL = "detail"
     }
@@ -50,6 +51,21 @@ class VocaloidDetail : AppCompatActivity() {
         // pass the putExtra to this class and get value
         val vocaloid = intent.getParcelableExtra<Item>(EXTRA_DETAIL)
 
+        // check lyrics language
+        fun checkLanguage(lan : String, translate : Boolean): Int{
+            for(i in vocaloid?.lyrics?.indices!!){
+                if(translate){
+                    Log.d(TAG, "checkLanguage: checked ${vocaloid.lyrics[i]?.culcureCodes?.contains(lan) == true }")
+                    if(vocaloid.lyrics[i]?.culcureCodes?.contains(lan) == true && vocaloid.lyrics[i]?.translationType.equals("Translation"))
+                        return i
+                }
+                Log.d(TAG, "checkLanguage: romanized")
+                if(vocaloid.lyrics[i]?.translationType.equals("Romanized"))
+                    return i
+            }
+            return 0
+        }
+
         textViewOrigTitle = findViewById(R.id.textView_main_origTitle)
         textViewTransTitle = findViewById(R.id.textView_main_transTitle)
         textViewArtist = findViewById(R.id.textView_main_artist)
@@ -66,52 +82,77 @@ class VocaloidDetail : AppCompatActivity() {
 
         layout = findViewById(R.id.layout_main_vocaDetail)
 
+        textViewLyrics.movementMethod = ScrollingMovementMethod();
+
         textViewOrigTitle.text = vocaloid?.defaultName
         textViewTransTitle.text = vocaloid?.name
-        textViewArtist.text = vocaloid?.artistString
-        textViewSongLength.text = toTime(vocaloid?.lengthSeconds)
-        textViewPV.text = vocaloid?.pvServices
-        textViewDate.text = vocaloid?.publishDate
-        textViewRate.text = vocaloid?.ratingScore.toString()
+        textViewArtist.text = "Artist(s):    " + vocaloid?.artistString
+        textViewSongLength.text = "Song Length:    " + toTime(vocaloid?.lengthSeconds)
+        textViewPV.text = "PV Platforms: \n" + vocaloid?.pvServices
+        textViewDate.text = "Published Date:    " + (vocaloid?.publishDate?.substring(0, 10) ?: " ")
+        textViewRate.text = "Rating:    " + vocaloid?.ratingScore.toString()
 
         textViewLyrics.text = vocaloid?.lyrics?.get(0)?.value
 
         val uri: Uri = Uri.parse(vocaloid?.lyrics?.get(0)?.url)
+        Log.d(TAG, "$uri")
         videoViewSong.setVideoURI(uri)
+        videoViewSong.start()
 
+        buttonLyrics.setOnClickListener(){
+            textViewArtist.visibility = View.INVISIBLE
+            textViewSongLength.visibility = View.INVISIBLE
+            textViewPV.visibility = View.INVISIBLE
+            textViewDate.visibility = View.INVISIBLE
+            textViewRate.visibility = View.INVISIBLE
 
+            textViewLyrics.visibility = View.VISIBLE
+            checkBoxEnglish.visibility = View.VISIBLE
+            checkBoxRomaji.visibility = View.VISIBLE
+        }
+
+        buttonInfo.setOnClickListener(){
+            textViewArtist.visibility = View.VISIBLE
+            textViewSongLength.visibility = View.VISIBLE
+            textViewPV.visibility = View.VISIBLE
+            textViewDate.visibility = View.VISIBLE
+            textViewRate.visibility = View.VISIBLE
+
+            textViewLyrics.visibility = View.INVISIBLE
+            checkBoxEnglish.visibility = View.INVISIBLE
+            checkBoxRomaji.visibility = View.INVISIBLE
+        }
+
+        checkBoxEnglish.setOnClickListener(){
+            if(checkBoxEnglish.isChecked == true){
+                checkBoxRomaji.isChecked = false
+                var langCode : Int = checkLanguage("en", true)
+                textViewLyrics.text = vocaloid?.lyrics?.get(langCode)?.value
+            }else{
+                textViewLyrics.text = vocaloid?.lyrics?.get(0)?.value
+            }
+        }
+
+        checkBoxRomaji.setOnClickListener(){
+            if(checkBoxRomaji.isChecked == true){
+                checkBoxEnglish.isChecked = false
+                var langCode : Int = checkLanguage("none", false)
+                textViewLyrics.text = vocaloid?.lyrics?.get(langCode)?.value
+            }else{
+                textViewLyrics.text = vocaloid?.lyrics?.get(0)?.value
+            }
+        }
     }
 
-    // converting from second to time :p in a stupid way but it works
+
     fun toTime(second : Int?): String{
-        var a : String = (second?.div(60)).toString().substring(0,1)
-        var b : String = (second?.div(60)).toString().substring(2,4)
+        var a : String = (second?.div(60)).toString()
+        var b : String = (second?.rem(60)).toString()
         return "$a:$b"
     }
 
 
-    // I do not know what is this, copy pasted from earthquake
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        val permissionsToRequest = ArrayList<String>()
-        var i = 0
-        while (i < grantResults.size) {
-            permissionsToRequest.add(permissions[i])
-            i++
-        }
-        if (permissionsToRequest.size > 0) {
-            ActivityCompat.requestPermissions(
-                this,
-                permissionsToRequest.toTypedArray(),
-                REQUEST_PERMISSIONS_REQUEST_CODE
-            )
-        }
 
-    }
 
 
 
