@@ -1,19 +1,13 @@
 package com.example.apiproject
 
-import android.content.res.Configuration
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.ActivityCompat
-import androidx.recyclerview.widget.RecyclerView
 import com.example.apiproject.databinding.ActivityVocaloidDetailBinding
 import android.net.Uri
 import android.util.Log
@@ -52,16 +46,23 @@ class VocaloidDetail : AppCompatActivity() {
         val vocaloid = intent.getParcelableExtra<Item>(EXTRA_DETAIL)
 
         // check lyrics language
-        fun checkLanguage(lan : String, translate : Boolean): Int{
-            for(i in vocaloid?.lyrics?.indices!!){
-                if(translate){
-                    Log.d(TAG, "checkLanguage: checked ${vocaloid.lyrics[i]?.culcureCodes?.contains(lan) == true }")
-                    if(vocaloid.lyrics[i]?.culcureCodes?.contains(lan) == true && vocaloid.lyrics[i]?.translationType.equals("Translation"))
+        fun checkLanguage(translate : Boolean): Int {
+            for (i in vocaloid?.lyrics?.indices!!) {
+                Log.d(TAG, "checkLanguage: $i")
+
+                if(translate){ //if translate is true: english checked
+                    Log.d(TAG, "checkLanguage: yes translate")
+                    if (vocaloid.lyrics[i]?.translationType.equals("Translation")) {
+                        Log.d(TAG, "checkLanguage: checked ${vocaloid.lyrics[i]?.cultureCodes?.contains("en")}}")
+                        if(vocaloid.lyrics[i]?.cultureCodes?.contains("en") == true)
                         return i
+                    }
+                }else{ //if translate is false: romaji checked
+                    if(vocaloid.lyrics[i]?.translationType.equals("Romanized")) {
+                        Log.d(TAG, "checkLanguage: romanized")
+                        return i
+                    }
                 }
-                Log.d(TAG, "checkLanguage: romanized")
-                if(vocaloid.lyrics[i]?.translationType.equals("Romanized"))
-                    return i
             }
             return 0
         }
@@ -126,7 +127,7 @@ class VocaloidDetail : AppCompatActivity() {
         checkBoxEnglish.setOnClickListener(){
             if(checkBoxEnglish.isChecked == true){
                 checkBoxRomaji.isChecked = false
-                var langCode : Int = checkLanguage("en", true)
+                var langCode : Int = checkLanguage( true)
                 textViewLyrics.text = vocaloid?.lyrics?.get(langCode)?.value
             }else{
                 textViewLyrics.text = vocaloid?.lyrics?.get(0)?.value
@@ -136,7 +137,7 @@ class VocaloidDetail : AppCompatActivity() {
         checkBoxRomaji.setOnClickListener(){
             if(checkBoxRomaji.isChecked == true){
                 checkBoxEnglish.isChecked = false
-                var langCode : Int = checkLanguage("none", false)
+                var langCode : Int = checkLanguage(false)
                 textViewLyrics.text = vocaloid?.lyrics?.get(langCode)?.value
             }else{
                 textViewLyrics.text = vocaloid?.lyrics?.get(0)?.value
