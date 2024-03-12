@@ -1,17 +1,22 @@
 package com.example.apiproject
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.apiproject.databinding.ActivityVocaloidDetailBinding
-import android.net.Uri
-import android.util.Log
-import android.text.method.ScrollingMovementMethod
+import com.squareup.picasso.Picasso
+
 
 class VocaloidDetail : AppCompatActivity() {
 
@@ -31,10 +36,12 @@ class VocaloidDetail : AppCompatActivity() {
     private lateinit var textViewLyrics: TextView
     private lateinit var buttonInfo: Button
     private lateinit var buttonLyrics: Button
-    private lateinit var videoViewSong: VideoView
+    private lateinit var imageViewVideo: ImageView
     private lateinit var checkBoxEnglish: CheckBox
     private lateinit var checkBoxRomaji: CheckBox
     private lateinit var layout: ConstraintLayout
+
+    private lateinit var textViewNoVideo: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +74,15 @@ class VocaloidDetail : AppCompatActivity() {
             return 0
         }
 
+        //check video source
+        fun checkSource(): String{
+            for (i in vocaloid?.lyrics?.indices!!){
+                if(vocaloid?.lyrics[i]?.source.equals("YouTube"))
+                    return i.toString()
+            }
+            return "Video Not Available"
+        }
+
         textViewOrigTitle = findViewById(R.id.textView_main_origTitle)
         textViewTransTitle = findViewById(R.id.textView_main_transTitle)
         textViewArtist = findViewById(R.id.textView_main_artist)
@@ -77,11 +93,14 @@ class VocaloidDetail : AppCompatActivity() {
         textViewLyrics = findViewById(R.id.textView_main_songLyrics)
         buttonInfo = findViewById(R.id.button_main_vocoDetail)
         buttonLyrics = findViewById(R.id.button_main_vocoLyrics)
-        videoViewSong = findViewById(R.id.videoView_main_video)
+        imageViewVideo = findViewById(R.id.imageView_video)
         checkBoxEnglish = findViewById(R.id.checkBox_main_english)
         checkBoxRomaji = findViewById(R.id.checkBox_main_romaji)
 
         layout = findViewById(R.id.layout_main_vocaDetail)
+
+        textViewNoVideo = findViewById(R.id.textView_main_noVideo)
+        textViewNoVideo.visibility = View.INVISIBLE
 
         textViewLyrics.movementMethod = ScrollingMovementMethod();
 
@@ -92,13 +111,36 @@ class VocaloidDetail : AppCompatActivity() {
         textViewPV.text = "PV Platforms: \n" + vocaloid?.pvServices
         textViewDate.text = "Published Date:    " + (vocaloid?.publishDate?.substring(0, 10) ?: " ")
         textViewRate.text = "Rating:    " + vocaloid?.ratingScore.toString()
+        Picasso.get().load(vocaloid?.mainPicture?.urlOriginal).into(imageViewVideo)
 
         textViewLyrics.text = vocaloid?.lyrics?.get(0)?.value
 
-        val uri: Uri = Uri.parse(vocaloid?.lyrics?.get(0)?.url)
-        Log.d(TAG, "$uri")
-        videoViewSong.setVideoURI(uri)
-        videoViewSong.start()
+
+        //videoview with url
+        val sourceIndex: Int
+        if(checkSource() != "Video Not Available"){
+            Log.d(TAG, "checkSource: ${checkSource()}")
+            sourceIndex = checkSource().toInt()
+            val uri: Uri = Uri.parse(vocaloid?.lyrics?.get(sourceIndex)?.url)
+            Log.d(TAG, "return uri: $uri")
+
+            imageViewVideo.setOnClickListener(){
+                val intentApp = Intent(Intent.ACTION_VIEW, Uri.parse(vocaloid?.lyrics?.get(sourceIndex)?.url))
+                val intentBrowser = Intent(Intent.ACTION_VIEW, Uri.parse(vocaloid?.lyrics?.get(sourceIndex)?.url))
+                try {
+                    this.startActivity(intentApp)
+                } catch (ex: ActivityNotFoundException) {
+                    this.startActivity(intentBrowser)
+                }
+            }
+
+        }else{
+            Log.d(TAG, "checkSource: not available")
+            imageViewVideo.visibility = View.INVISIBLE
+            textViewNoVideo.visibility = View.VISIBLE
+
+        }
+
 
         buttonLyrics.setOnClickListener(){
             textViewArtist.visibility = View.INVISIBLE

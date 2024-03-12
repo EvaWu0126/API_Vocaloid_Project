@@ -6,15 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <VideoView
-        android:id="@+id/videoView_main_video"
-        android:layout_width="319dp"
-        android:layout_height="199dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/textView_main_origTitle"
         android:layout_width="wrap_content"
@@ -37,7 +28,7 @@
         android:text="Basic Information"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/videoView_main_video" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView_video" />
 
     <Button
         android:id="@+id/button_main_vocoLyrics"
@@ -50,7 +41,7 @@
         android:text="Lyrics"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/videoView_main_video" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView_video" />
 
     <TextView
         android:id="@+id/textView_main_transTitle"
@@ -172,5 +163,44 @@
         app:layout_constraintStart_toEndOf="@+id/checkBox_main_english"
         app:layout_constraintTop_toBottomOf="@+id/textView_main_transTitle"
         tools:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/textView_main_noVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Video is not available for this song."
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_main_vocoDetail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView_video"
+        android:layout_width="325dp"
+        android:layout_height="154dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="44dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Video:"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView_video"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
